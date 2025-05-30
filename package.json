@@ -1,0 +1,19 @@
+{
+  "name": "whatsapp-bot",
+  "version": "1.0.0",
+  "description": "Automated WhatsApp bot to send personalized messages to students using whatsapp-web.js and Google Sheets.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "server": "node server.js"
+  },
+  "author": "Dr. Mohammad Alomari",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.21.2",
+    "google-spreadsheet": "^3.3.0",
+    "qrcode": "^1.5.1",
+    "whatsapp-web.js": "^1.21.1"
+  }
+}
