@@ -14,7 +14,7 @@ const client = new Client({
 });
 
 // Google Sheets setup
-const creds = require('./credentials.json');
+const creds = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT);
 const doc = new GoogleSpreadsheet(process.env.SHEET_ID);
 
 // إرسال الرسائل المعلقة
