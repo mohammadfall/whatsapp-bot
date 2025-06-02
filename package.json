@@ -4,7 +4,7 @@
   "description": "Automated WhatsApp bot to send personalized messages to students using whatsapp-web.js and Google Sheets.",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "NODE_OPTIONS=--openssl-legacy-provider node index.js",
     "server": "node server.js"
   },
   "author": "Dr. Mohammad Alomari",
