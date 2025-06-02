@@ -28,15 +28,16 @@ async function sendPendingMessages() {
   for (let row of rows) {
     if (row.status !== 'pending') continue;
 
-    const name = row.name;
-    const phone = row.phone;
+    const name = row.name || '';
+    const phone = row.phone?.toString().replace(/\D/g, ''); // أرقام فقط
+    const chatId = `${phone}@c.us`;
+
     const message = `السلام عليكم ورحمة الله كيفك ${name} 🤍\n\nتم رفع المحاضره عالمنصه ✅`;
-    const chatId = phone + '@c.us';
 
     try {
       await client.sendMessage(chatId, message);
-      row.status = 'done'; // تحديث الحالة
-      row.timestamp = new Date().toISOString(); // تحديث التوقيت
+      row.status = 'done';
+      row.timestamp = new Date().toISOString();
       await row.save();
       console.log(`✅ Sent to ${name} - ${phone}`);
     } catch (err) {
@@ -51,7 +52,7 @@ client.on('qr', async (qr) => {
   await qrcode.toFile('qr.png', qr);
 });
 
-// On ready, check every 15 seconds
+// On ready
 client.on('ready', async () => {
   console.log('✅ WhatsApp is ready!');
   setInterval(async () => {
