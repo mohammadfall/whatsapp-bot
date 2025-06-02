@@ -26,7 +26,7 @@ async function sendPendingMessages() {
   const rows = await sheet.getRows();
 
   for (let row of rows) {
-    if (row.E !== 'pending') continue;
+    if (row.status !== 'pending') continue;
 
     const name = row.name;
     const phone = row.phone;
@@ -35,8 +35,8 @@ async function sendPendingMessages() {
 
     try {
       await client.sendMessage(chatId, message);
-      row.E = 'done'; // العمود E = status
-      row.F = new Date().toLocaleString('en-US', { timeZone: 'Asia/Amman' }); // العمود F = timestamp
+      row.status = 'done'; // تحديث الحالة
+      row.timestamp = new Date().toISOString(); // تحديث التوقيت
       await row.save();
       console.log(`✅ Sent to ${name} - ${phone}`);
     } catch (err) {
