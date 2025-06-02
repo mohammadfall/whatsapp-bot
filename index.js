@@ -26,17 +26,17 @@ async function sendPendingMessages() {
   const rows = await sheet.getRows();
 
   for (let row of rows) {
-    if (row.status !== 'pending') continue;
+    if (row.E !== 'pending') continue;
 
     const name = row.name;
     const phone = row.phone;
-    const message = row.message.replace('{name}', name);
-    const chatId = phone + "@c.us";
+    const message = `السلام عليكم ورحمة الله كيفك ${name} 🤍\n\nتم رفع المحاضره عالمنصه ✅`;
+    const chatId = phone + '@c.us';
 
     try {
       await client.sendMessage(chatId, message);
-      row.status = 'done';
-      row.timestamp = new Date().toISOString();
+      row.E = 'done'; // العمود E = status
+      row.F = new Date().toLocaleString('en-US', { timeZone: 'Asia/Amman' }); // العمود F = timestamp
       await row.save();
       console.log(`✅ Sent to ${name} - ${phone}`);
     } catch (err) {
@@ -54,8 +54,6 @@ client.on('qr', async (qr) => {
 // On ready, check every 15 seconds
 client.on('ready', async () => {
   console.log('✅ WhatsApp is ready!');
-
-  // يشيّك كل 15 ثانية
   setInterval(async () => {
     console.log('🔁 Checking for pending messages...');
     await sendPendingMessages();
