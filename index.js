@@ -13,9 +13,16 @@ const client = new Client({
   },
 });
 
-// Google Sheets setup
-const creds = JSON.parse(process.env.GOOGLE_SERVICE_ACCOUNT);
-const doc = new GoogleSpreadsheet(process.env.SHEET_ID);
+// ✅ Google Sheets setup - بناء يدوي للـ creds
+const creds = {
+  type: "service_account",
+  project_id: "your-project-id", // غيّرها لو ما كانت داخل المفتاح
+  private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+  client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+  token_uri: "https://oauth2.googleapis.com/token"
+};
+
+const doc = new GoogleSpreadsheet(process.env.GOOGLE_SHEET_ID);
 
 // إرسال الرسائل المعلقة
 async function sendPendingMessages() {
@@ -29,7 +36,7 @@ async function sendPendingMessages() {
     if (row.status !== 'pending') continue;
 
     const name = row.name || '';
-    const phone = row.phone?.toString().replace(/\D/g, ''); // أرقام فقط
+    const phone = row.phone?.toString().replace(/\D/g, '');
     const chatId = `${phone}@c.us`;
 
     const message = `السلام عليكم ورحمة الله كيفك ${name} 🤍\n\nتم رفع المحاضره عالمنصه ✅`;
