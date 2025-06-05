@@ -13,16 +13,16 @@ const client = new Client({
   },
 });
 
-// ✅ Google Sheets setup - بناء يدوي للـ creds
+// ✅ Google Sheets setup - parsing private key correctly
 const creds = {
   type: "service_account",
-  project_id: "your-project-id", // غيّرها لو ما كانت داخل المفتاح
+  project_id: process.env.GOOGLE_PROJECT_ID,
   private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
-  client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-  token_uri: "https://oauth2.googleapis.com/token"
+  client_email: process.env.GOOGLE_CLIENT_EMAIL,
+  token_uri: "https://oauth2.googleapis.com/token",
 };
 
-const doc = new GoogleSpreadsheet(process.env.GOOGLE_SHEET_ID);
+const doc = new GoogleSpreadsheet(process.env.SHEET_ID);
 
 // إرسال الرسائل المعلقة
 async function sendPendingMessages() {
@@ -46,7 +46,7 @@ async function sendPendingMessages() {
       row.status = 'done';
       row.timestamp = new Date().toISOString();
       await row.save();
-      console.log(`✅ Sent to ${name} - ${phone}`);
+      console.log(`[${new Date().toLocaleTimeString()}] ✅ Sent to ${name} - ${phone}`);
     } catch (err) {
       console.error(`❌ Failed to send to ${name} (${phone}): ${err.message}`);
     }
