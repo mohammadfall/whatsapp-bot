@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "NODE_OPTIONS=--openssl-legacy-provider node index.js",
-    "server": "node server.js"
+    "server": "node server.js",
+    "test": "node -c index.js"
   },
   "author": "Dr. Mohammad Alomari",
   "license": "MIT",
